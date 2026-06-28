@@ -1,0 +1,291 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   DESIGN TOKENS — "Der Salon by Kristina" · Editorial Warm
+   Tokens are RGB channels so Tailwind alpha (/40 etc.) works.
+   ============================================================ */
+:root {
+  --canvas: 250 246 240;       /* warm porcelain        */
+  --surface: 255 253 250;      /* card / raised         */
+  --ink: 26 22 20;             /* espresso text         */
+  --ink-soft: 92 80 70;        /* muted body text       */
+  --stone: 142 128 113;        /* captions / eyebrows   */
+  --line: 228 218 203;         /* hairline borders      */
+  --gold: 176 132 70;          /* champagne bronze deco  */
+  --gold-deep: 122 84 28;      /* text-safe gold (AA)   */
+  --noir: 22 19 17;            /* dark section bg       */
+  --noir-soft: 34 29 26;       /* dark raised           */
+
+  --nav-h: 80px;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background-color: rgb(var(--canvas));
+  color: rgb(var(--ink));
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Subtle warm paper grain on the canvas */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: rgb(var(--gold) / 0.22);
+  color: rgb(var(--ink));
+}
+
+/* Refined focus ring (accessibility) */
+:where(a, button, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid rgb(var(--gold-deep));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   TYPOGRAPHY HELPERS
+   ============================================================ */
+@layer components {
+  .eyebrow {
+    @apply font-sans uppercase text-[0.72rem] tracking-widest2 text-stone font-medium;
+  }
+
+  .display {
+    @apply font-display font-medium leading-[0.98] tracking-[-0.01em] text-ink;
+  }
+
+  .accent-italic {
+    @apply font-accent italic font-medium;
+    color: rgb(var(--gold-deep));
+  }
+
+  .lead {
+    @apply font-sans text-ink-soft leading-relaxed;
+  }
+
+  /* ----------------------------------------------------------
+     PREMIUM BUTTON SYSTEM (no harsh black flash; soft lift)
+     ---------------------------------------------------------- */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2.5
+           font-sans text-[0.92rem] font-medium tracking-wide
+           rounded-full px-7 py-3.5 select-none cursor-pointer
+           transition-[transform,box-shadow,background-color,color]
+           duration-300 ease-smooth overflow-hidden;
+    min-height: 48px;
+  }
+  .btn:active { transform: translateY(0) scale(0.985); }
+
+  /* Primary — ink with a champagne shine sweep + lift */
+  .btn-primary {
+    @apply text-canvas;
+    background-color: rgb(var(--ink));
+    box-shadow: 0 1px 0 0 rgb(var(--ink) / 0.04),
+                0 10px 24px -12px rgb(var(--ink) / 0.45);
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 20%,
+      rgb(var(--gold) / 0.55) 48%,
+      rgb(255 240 214 / 0.8) 52%,
+      transparent 80%
+    );
+    transform: translateX(-130%);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1px 0 0 rgb(var(--ink) / 0.04),
+                0 18px 34px -14px rgb(var(--ink) / 0.55);
+  }
+  .btn-primary:hover::after { transform: translateX(130%); }
+
+  /* Outline — espresso fill sweep on hover */
+  .btn-outline {
+    @apply text-ink;
+    background-color: transparent;
+    border: 1px solid rgb(var(--ink) / 0.28);
+  }
+  .btn-outline::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(var(--ink));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 0;
+  }
+  .btn-outline > * { position: relative; z-index: 1; }
+  .btn-outline:hover { color: rgb(var(--canvas)); border-color: rgb(var(--ink)); transform: translateY(-2px); }
+  .btn-outline:hover::before { transform: scaleX(1); }
+
+  /* Light — for dark backgrounds */
+  .btn-light {
+    @apply text-ink;
+    background-color: rgb(var(--canvas));
+    box-shadow: 0 12px 30px -14px rgb(0 0 0 / 0.6);
+  }
+  .btn-light:hover { transform: translateY(-2px); }
+
+  /* Gold text-link with underline draw */
+  .link-gold {
+    @apply relative inline-flex items-center gap-1.5 font-sans text-[0.92rem] font-medium;
+    color: rgb(var(--gold-deep));
+  }
+  .link-gold::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 100%; height: 1px;
+    background: rgb(var(--gold-deep));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-gold:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-line
+           bg-surface/70 px-4 py-1.5 text-[0.78rem] font-medium text-ink-soft
+           backdrop-blur-sm;
+  }
+
+  .card-surface {
+    @apply rounded-[20px] border border-line bg-surface;
+    box-shadow: 0 1px 2px rgb(var(--ink) / 0.03),
+                0 24px 48px -32px rgb(var(--ink) / 0.18);
+  }
+
+  .hairline {
+    @apply h-px w-full bg-line;
+  }
+
+  .section {
+    @apply relative px-5 sm:px-8 lg:px-12;
+  }
+  .wrap {
+    @apply mx-auto w-full max-w-content;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Gold gradient text for accent numerals */
+  .text-gold-grad {
+    background: linear-gradient(135deg, rgb(var(--gold-deep)), rgb(var(--gold)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .perspective {
+    perspective: 1200px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .snap-x-mandatory {
+    scroll-snap-type: x mandatory;
+  }
+  .snap-start { scroll-snap-align: start; }
+}
+
+/* Salon slider — slow zoom-out (compositor-driven, smooth in every browser) */
+@keyframes kenburns {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
+}
+.animate-kenburns {
+  animation: kenburns 7s linear forwards;
+  transform: translateZ(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns { animation: none; transform: none; }
+}
+
+/* Experience bg — endloser, sehr langsamer Atem-Zoom (compositor-driven) */
+@keyframes slowzoom {
+  from { transform: scale(1) translateZ(0); }
+  to { transform: scale(1.08) translateZ(0); }
+}
+.animate-slowzoom {
+  animation: slowzoom 22s ease-in-out infinite alternate;
+  transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-slowzoom { animation: none; transform: none; }
+}
+
+/* Legal pages typography */
+.legal h2 {
+  font-family: var(--font-display), serif;
+  font-size: 1.25rem;
+  color: rgb(var(--ink));
+  margin-bottom: 0.5rem;
+}
+.legal p {
+  color: rgb(var(--ink-soft));
+  line-height: 1.7;
+}
+.legal a {
+  color: rgb(var(--gold-deep));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Skeleton shimmer for image loads */
+.skeleton {
+  background: linear-gradient(
+    100deg,
+    rgb(var(--line) / 0.5) 30%,
+    rgb(var(--surface)) 50%,
+    rgb(var(--line) / 0.5) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton, .animate-floaty, .animate-marquee-x { animation: none !important; }
+}
