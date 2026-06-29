@@ -3,19 +3,23 @@
 @tailwind utilities;
 
 /* ============================================================
-   DESIGN TOKENS — "Der Salon by Kristina" · Editorial Warm
+   DESIGN TOKENS — "Salon Colorway" · Maria-Nila-Demo
+   NUR Farben getauscht — Layout/Komponenten unverändert.
+   Ivory-Basis · Blush-Flächen · Espresso-Kontrast · Sage statt Gold.
    Tokens are RGB channels so Tailwind alpha (/40 etc.) works.
    ============================================================ */
 :root {
-  --canvas: 250 246 240;       /* warm porcelain        */
-  --surface: 255 253 250;      /* card / raised         */
-  --ink: 26 22 20;             /* espresso text         */
-  --ink-soft: 92 80 70;        /* muted body text       */
-  --stone: 142 128 113;        /* captions / eyebrows   */
-  --line: 228 218 203;         /* hairline borders      */
-  --gold: 176 132 70;          /* champagne bronze deco  */
-  --gold-deep: 122 84 28;      /* text-safe gold (AA)   */
-  --noir: 22 19 17;            /* dark section bg       */
+  --canvas: 248 244 238;       /* warm ivory            */
+  --surface: 251 242 241;      /* blush card / raised   */
+  --ink: 34 29 26;             /* espresso text         */
+  --ink-soft: 107 95 87;       /* muted rosé-brown body */
+  --stone: 150 132 124;        /* captions / eyebrows   */
+  --line: 233 220 214;         /* rosé hairline borders */
+  --gold: 150 169 144;         /* sage / eucalyptus deco — feine Linien */
+  --gold-deep: 75 91 69;       /* text-safe sage (AA)   */
+  --rose: 214 184 191;         /* soft pastel blush     */
+  --rose-deep: 150 100 116;    /* gedämpftes Altrosa, text-safe (AA auf Ivory & Weiß darauf) */
+  --noir: 26 22 20;            /* dark section bg       */
   --noir-soft: 34 29 26;       /* dark raised           */
 
   --nav-h: 80px;
@@ -54,7 +58,7 @@ body::before {
 }
 
 ::selection {
-  background: rgb(var(--gold) / 0.22);
+  background: rgb(var(--rose) / 0.28);
   color: rgb(var(--ink));
 }
 
@@ -79,6 +83,10 @@ body::before {
 
   .accent-italic {
     @apply font-accent italic font-medium;
+    color: rgb(var(--rose-deep));
+  }
+  /* Leistungen behalten den Salbei-Akzent (wie zuvor) */
+  #leistungen .accent-italic {
     color: rgb(var(--gold-deep));
   }
 
@@ -99,12 +107,12 @@ body::before {
   }
   .btn:active { transform: translateY(0) scale(0.985); }
 
-  /* Primary — ink with a champagne shine sweep + lift */
+  /* Primary — dusty rose with a soft blush shine sweep + lift */
   .btn-primary {
     @apply text-canvas;
-    background-color: rgb(var(--ink));
-    box-shadow: 0 1px 0 0 rgb(var(--ink) / 0.04),
-                0 10px 24px -12px rgb(var(--ink) / 0.45);
+    background-color: rgb(var(--rose-deep));
+    box-shadow: 0 1px 0 0 rgb(var(--rose-deep) / 0.04),
+                0 10px 24px -12px rgb(var(--rose-deep) / 0.5);
   }
   .btn-primary::after {
     content: '';
@@ -113,8 +121,8 @@ body::before {
     background: linear-gradient(
       110deg,
       transparent 20%,
-      rgb(var(--gold) / 0.55) 48%,
-      rgb(255 240 214 / 0.8) 52%,
+      rgb(var(--rose) / 0.55) 48%,
+      rgb(255 240 244 / 0.85) 52%,
       transparent 80%
     );
     transform: translateX(-130%);
@@ -122,8 +130,8 @@ body::before {
   }
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 1px 0 0 rgb(var(--ink) / 0.04),
-                0 18px 34px -14px rgb(var(--ink) / 0.55);
+    box-shadow: 0 1px 0 0 rgb(var(--rose-deep) / 0.04),
+                0 18px 34px -14px rgb(var(--rose-deep) / 0.6);
   }
   .btn-primary:hover::after { transform: translateX(130%); }
 
@@ -202,7 +210,7 @@ body::before {
 
   /* Gold gradient text for accent numerals */
   .text-gold-grad {
-    background: linear-gradient(135deg, rgb(var(--gold-deep)), rgb(var(--gold)));
+    background: linear-gradient(135deg, rgb(var(--rose-deep)), rgb(var(--gold-deep)));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

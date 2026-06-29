@@ -18,7 +18,7 @@ export const site = {
     { day: 'Samstag & Sonntag', time: 'Geschlossen' },
   ],
   booking: {
-    url: 'https://www.studiobookr.com/vorfreude-rheinbach-gmbh-66721#/',
+    url: 'https://www.studiobookr.com/vorfreude-rheinbach-gmbh-66721?brand=0&head=0&empl=0&cont=0&rev=0&smc=0',
     provider: 'StudioBookr',
   },
   social: {

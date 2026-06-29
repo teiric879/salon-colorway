@@ -3,6 +3,7 @@ import Hero from '@/components/sections/Hero';
 import Salon from '@/components/sections/Salon';
 import Services from '@/components/sections/Services';
 import Gallery from '@/components/sections/Gallery';
+import Instagram from '@/components/sections/Instagram';
 import Experience from '@/components/sections/Experience';
 import Team from '@/components/sections/Team';
 import Prices from '@/components/sections/Prices';
@@ -22,6 +23,7 @@ export default function Home() {
         <Salon />
         <Services />
         <Gallery />
+        <Instagram />
         <Experience />
         <Team />
         <Prices />

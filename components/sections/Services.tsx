@@ -25,20 +25,52 @@ export default function Services() {
             intro="Wir haben uns bewusst auf Haare ab mittlerer Länge spezialisiert – mit Fokus auf Color, Blond und gesunde Pflege."
           />
           <Reveal>
-            <div className="flex flex-wrap gap-2">
-              {tabs.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setActive(t)}
-                  className={`rounded-full border px-4 py-2 text-[0.85rem] font-medium transition-colors duration-300 ${
-                    active === t
-                      ? 'border-ink bg-ink text-canvas'
-                      : 'border-line bg-surface text-ink-soft hover:border-ink/40'
-                  }`}
-                >
-                  {t}
-                </button>
-              ))}
+            <div
+              role="tablist"
+              aria-label="Leistungen filtern"
+              className="inline-flex flex-wrap items-center gap-1 rounded-full border border-line bg-surface/60 p-1.5 shadow-[inset_0_1px_2px_rgb(var(--ink)/0.05)] backdrop-blur-sm"
+            >
+              {tabs.map((t) => {
+                const isActive = active === t;
+                return (
+                  <motion.button
+                    key={t}
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setActive(t)}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                    className="relative min-h-[44px] rounded-full px-5 py-2.5 text-[0.85rem] font-medium tracking-wide outline-none focus-visible:ring-2 focus-visible:ring-gold-deep/60"
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="filterPill"
+                        aria-hidden
+                        className="absolute inset-0 rounded-full bg-ink shadow-[0_10px_24px_-10px_rgb(var(--ink)/0.55)]"
+                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                    {/* feiner Rosé-Schimmer beim Aktivieren */}
+                    {isActive && (
+                      <motion.span
+                        aria-hidden
+                        initial={{ opacity: 0.55, scale: 0.6 }}
+                        animate={{ opacity: 0, scale: 1.15 }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}
+                        className="absolute inset-0 rounded-full ring-1 ring-rose/60"
+                      />
+                    )}
+                    <span
+                      className={`relative z-10 transition-colors duration-200 ${
+                        isActive ? 'text-canvas' : 'text-ink-soft hover:text-ink'
+                      }`}
+                    >
+                      {t}
+                    </span>
+                  </motion.button>
+                );
+              })}
             </div>
           </Reveal>
         </div>

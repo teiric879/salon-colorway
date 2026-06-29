@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import SectionHeading from '@/components/SectionHeading';
 import Reveal from '@/components/motion/Reveal';
 import SalonSlider from '@/components/SalonSlider';
@@ -30,12 +29,20 @@ export default function Salon() {
             {experience.map((e, i) => (
               <Reveal key={e.title} delay={i * 0.08}>
                 <div className="group flex items-start gap-5 border-t border-line py-6 transition-colors duration-300 ease-smooth hover:border-gold/40">
-                  <Image
-                    src={`/images/perks/${e.icon}.png`}
-                    alt=""
-                    width={88}
-                    height={88}
-                    className="h-16 w-16 shrink-0 object-contain transition-transform duration-300 ease-smooth group-hover:scale-105"
+                  <span
+                    aria-hidden
+                    className="h-16 w-16 shrink-0 transition-transform duration-300 ease-smooth group-hover:scale-105"
+                    style={{
+                      backgroundColor: 'rgb(var(--rose-deep))',
+                      WebkitMaskImage: `url(/images/perks/${e.icon}.png)`,
+                      maskImage: `url(/images/perks/${e.icon}.png)`,
+                      WebkitMaskRepeat: 'no-repeat',
+                      maskRepeat: 'no-repeat',
+                      WebkitMaskPosition: 'center',
+                      maskPosition: 'center',
+                      WebkitMaskSize: 'contain',
+                      maskSize: 'contain',
+                    }}
                   />
                   <div className="min-w-0 pt-1">
                     <h3 className="font-display text-[1.18rem] leading-tight text-ink">{e.title}</h3>

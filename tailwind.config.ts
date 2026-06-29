@@ -17,6 +17,8 @@ const config: Config = {
         line: 'rgb(var(--line) / <alpha-value>)',
         gold: 'rgb(var(--gold) / <alpha-value>)',
         'gold-deep': 'rgb(var(--gold-deep) / <alpha-value>)',
+        rose: 'rgb(var(--rose) / <alpha-value>)',
+        'rose-deep': 'rgb(var(--rose-deep) / <alpha-value>)',
         noir: 'rgb(var(--noir) / <alpha-value>)',
         'noir-soft': 'rgb(var(--noir-soft) / <alpha-value>)',
       },

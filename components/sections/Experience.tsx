@@ -2,7 +2,6 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import Image from 'next/image';
 import SmartImage from '@/components/SmartImage';
 import RevealText from '@/components/motion/RevealText';
 import Reveal from '@/components/motion/Reveal';
@@ -76,7 +75,7 @@ export default function Experience() {
             <RevealText
               as="h2"
               text="Hier geht es nicht nur um Haare. *Sondern* *um* *dich.*"
-              className="display mt-5 text-[2.1rem] leading-[1.05] text-gold [&_.accent-italic]:text-gold sm:text-[2.7rem] lg:text-[3.1rem]"
+              className="display mt-5 text-[2.1rem] leading-[1.05] text-gold [&_.accent-italic]:text-[rgb(var(--rose))] sm:text-[2.7rem] lg:text-[3.1rem]"
             />
             <Reveal delay={0.15}>
               <p className="mt-6 max-w-xl text-[1.05rem] leading-relaxed text-canvas/75">
@@ -90,12 +89,20 @@ export default function Experience() {
               {perks.map((p, i) => (
                 <Reveal key={p.kind === 'count' ? p.unit : p.text} delay={i * 0.08}>
                   <div className="flex items-center gap-3.5">
-                    <Image
-                      src={`/images/perks/${p.icon}.png`}
-                      alt=""
-                      width={96}
-                      height={96}
-                      className="h-14 w-14 shrink-0 object-contain"
+                    <span
+                      aria-hidden
+                      className="h-14 w-14 shrink-0"
+                      style={{
+                        backgroundColor: 'rgb(var(--rose))',
+                        WebkitMaskImage: `url(/images/perks/${p.icon}.png)`,
+                        maskImage: `url(/images/perks/${p.icon}.png)`,
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskPosition: 'center',
+                        maskPosition: 'center',
+                        WebkitMaskSize: 'contain',
+                        maskSize: 'contain',
+                      }}
                     />
                     <div className="min-w-0">
                       <p className="font-display text-[1.15rem] leading-tight text-canvas">

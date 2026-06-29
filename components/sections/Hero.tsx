@@ -34,24 +34,7 @@ export default function Hero() {
       <div className="wrap grid min-h-[calc(100svh-var(--nav-h))] grid-cols-1 items-center gap-10 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-0">
         {/* ── Left: copy ── */}
         <motion.div style={{ y: textY }} className="relative z-10 max-w-xl">
-          {/* Eyebrow-Chip — original PNG asset */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="-mb-6 inline-block"
-          >
-            <Image
-              src="/images/eyebrow-chip.png"
-              alt="Natürlich schöne Ergebnisse"
-              width={480}
-              height={128}
-              priority
-              className="w-[min(330px,80vw)] h-auto"
-            />
-          </motion.div>
-
-          <h1 className="display mt-0 text-[3.1rem] leading-[0.98] sm:text-[4rem] lg:text-[4.7rem]">
+          <h1 className="display text-[3.1rem] leading-[0.98] sm:text-[4rem] lg:text-[4.7rem]">
             {headline.map((w, i) => {
               const emph = w.startsWith('*');
               const clean = w.replace(/\*/g, '');
