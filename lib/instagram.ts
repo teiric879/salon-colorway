@@ -81,18 +81,14 @@ export async function getInstagramPosts(): Promise<InstaPost[]> {
 
     const posts: InstaPost[] = media
       // Videos liefern thumbnail_url, Bilder media_url – beides abdecken.
-      .map((m) => {
-        const image = m.media_type === 'VIDEO' ? m.thumbnail_url : m.media_url;
-        if (!image) return null;
-        return {
-          id: m.id,
-          image,
-          alt: captionToAlt(m.caption),
-          permalink: m.permalink,
-          live: true,
-        } satisfies InstaPost;
-      })
-      .filter((p): p is InstaPost => p !== null)
+      .filter((m) => !!(m.media_type === 'VIDEO' ? m.thumbnail_url : m.media_url))
+      .map((m): InstaPost => ({
+        id: m.id,
+        image: (m.media_type === 'VIDEO' ? m.thumbnail_url : m.media_url) as string,
+        alt: captionToAlt(m.caption),
+        permalink: m.permalink,
+        live: true,
+      }))
       .slice(0, instagram.limit);
 
     // API antwortete, lieferte aber nichts Brauchbares → Fallback.
